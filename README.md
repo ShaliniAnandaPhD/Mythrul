@@ -25,17 +25,15 @@ Mininghashrate = 𝑒𝛽1 + 𝛼2Investmentintensity
 Where 𝛽1 and 𝛼2 represent the network hash rate constant function coefficient and coefficient on investment intensity, respectively. Similarly, the average block size of Bitcoin is consistent with time due to the growing popularity of Bitcoin transactions and investment. The block size is estimated by time and is illustrated as below:
 
 Blocksize=𝑒𝛽2+𝛼3Time
-(4)
-Where 𝛽2 and 𝛼3 indicate the block size function constant coefficient and coefficient on time, respectively. The proportion of Chinese miners in the Bitcoin mining process will gradually decrease if mining Bitcoin in China is not profitable. So, the proportion parameter in the BBCE model is set as follows:
 
-ProportionofChineseminers=IFTHENELSE(MinercumulativeProfits<0,0.7−0.01×Time,0.7)
-(5)
-Suggested by the mining pool statistics obtained from BTC.com, China accounts for approximately 70% of Bitcoin blockchain operation around the world. As a result, we set the initial proportion of Chinese Bitcoin miners as 70%. In addition, the proportion of Chinese Bitcoin miners will gradually decrease if the Bitcoin mining process is no longer profitable in China.
+Where 𝛽2 and 𝛼3 indicate the block size function constant coefficient and coefficient on time, respectively. 
+
+Proportion  of miners=IFTHENELSE(MinercumulativeProfits<0,0.7−0.01×Time,0.7)
+
 
 The energy consumed per hash will reduce, i.e., the mining efficiency of the Bitcoin blockchain will improve, when updated Bitcoin hardware is invested and introduced. Moreover, the market access standard for efficiency proposed by policy makers also affects network efficiency. Consequently, the mining efficiency can be calculated as follows:
 
-Miningefficiency=𝑒𝛽3+𝛼4×Investmentintensity×Marketassessstandardforefficiency
-(6)
+Mining efficiency = 𝑒𝛽3+𝛼4×Investmentintensity × Marketassessstandardforefficiency
 Where 𝛽3 and 𝛼4 act as the mining efficiency function constant coefficient and coefficient on investment intensity and market access standard for efficiency, respectively. 
 
 The mining power of the Bitcoin blockchain can be obtained by network hash rate and mining efficiency. The equation of mining power is shown as follows:
@@ -55,7 +53,7 @@ CarbonemissionperGDP=Carbonemission/GDP
 
 The carbon tax of Bitcoin blockchain is set as:
 
-Carbontax = 0.01 × IFTHENELSE(carbonemissionperGDP>2,2,1)
+Carbontax = 0.01 × IFTHENELSE (carbonemissionperGDP>2,2,1)
 
 
 Installation
@@ -85,15 +83,16 @@ Predicted consumption for 1000 transcaction(s):
 Mythrul: Finished monitoring.
 verbose=2
 Mythrul: The following components were found: CPU with device(s) cpu:0.
-Mythrul: Average carbon intensity during training was 82.00 gCO2/kWh at detected location: Copenhagen, Capital Region, DK.
+Mythrul: Average carbon intensity during the transaction was 82.00 gCO2/kWh at detected location: Los Angeles, Ca.
 Mythrul: 
+
 Actual consumption for 1 transaction(s):
         Time:   0:00:10
         Energy: 0.000041 kWh
         CO2eq:  0.003357 g
         This is equivalent to:
         0.000028 km travelled by car
-Mythrul: Carbon intensity for the next 2:59:06 is predicted to be 107.49 gCO2/kWh at detected location: Copenhagen, Capital Region, DK.
+Mythrul: Carbon intensity for the next 2:59:06 is predicted to be 107.49 gCO2/kWh.
 Mythrul: 
 Predicted consumption for 1000 intensity:
         Time:   2:59:06
@@ -105,42 +104,14 @@ Mythrul: Finished monitoring.
 Parsing log files
 Aggregating log files: aggregating all log files in a specified directory to a single estimate of the carbon footprint.
 
-Example usage
-from mythrul import parser
 
-parser.print_aggregate(log_dir="./my_log_directory/")
-Example output
-The training of models in this work is estimated to use 4.494 kWh of electricity contributing to 0.423 kg of CO2eq. 
-Convert logs to dictionary objects
-Log files can be parsed into dictionaries using parser.parse_all_logs() or parser.parse_logs().
-
-Example usage
-from mythrul import parser
-
-logs = parser.parse_all_logs(log_dir="./logs/")
-first_log = logs[0]
-
-print(f"Output file name: {first_log['output_filename']}")
-print(f"Standard file name: {first_log['standard_filename']}")
-print(f"Stopped early: {first_log['early_stop']}")
-print(f"Measured consumption: {first_log['actual']}")
-print(f"Predicted consumption: {first_log['pred']}")
-print(f"Measured GPU devices: {first_log['components']['gpu']['devices']}")
-Example output
-Output file name: ./logs/2020-05-17T19:02Z_mythrul_output.log
-Standard file name: ./logs/2020-05-17T19:02Z_mythrul.log
-Stopped early: False
-Measured consumption: {'intensity': 1, 'duration (s)': 8.0, 'energy (kWh)': 6.5e-05, 'co2eq (g)': 0.019201, 'equivalents': {'km travelled by car': 0.000159}}
-Predicted consumption: {'intensity': 3, 'duration (s)': 25.0, 'energy (kWh)': 1000.000196, 'co2eq (g)': 10000.057604, 'equivalents': {'km travelled by car': 10000.000478}}
-Measured GPU devices: ['Tesla T4']
 Compatibility
+
 mythrul is compatible with:
 
 NVIDIA GPUs that support NVIDIA Management Library (NVML)
+
 Intel CPUs that support Intel RAPL
 Slurm
 Google Colab / Jupyter Notebook
 Notes
-Availability of GPUs and Slurm
-Available GPU devices are determined by first checking the environment variable CUDA_VISIBLE_DEVICES (only if devices_by_pid=False otherwise we find devices by PID). This ensures that for Slurm we only fetch GPU devices associated with the current job and not the entire cluster. If this fails we measure all available GPUs.
-NVML cannot find processes for containers spawned without --pid=host. This affects the device_by_pids parameter and means that it will never find any active processes for GPUs in affected containers.
