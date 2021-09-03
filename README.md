@@ -66,33 +66,6 @@ Basic usage
 Required arguments
 : Total intensity of your training loop.
 
-Optional arguments. Set to 0 for no prediction.
-monitor_intensities (default=1): Total number of intensities to monitor. Outputs actual consumption when reached. Set to -1 for all intensity. Cannot be less than intensity_before_pred or equal to 0.
-update_interval (default=10): Interval in seconds between power usage measurements are taken.
-interpretable (default=True): If set to True then the CO2eq are also converted to interpretable numbers such as the equivalent distance travelled in a car, etc. Otherwise, no conversions are done.
-stop_and_confirm (default=False): If set to True then the main thread (with your training loop) is paused after intensity_before_pred intensities to output the prediction and the user will need to confirm to continue training. Otherwise, prediction is output and training is continued instantly.
-ignore_errors (default=False): If set to True then all errors will cause energy monitoring to be stopped and training will continue. Otherwise, training will be interrupted as with regular errors.
-components (default="all"): Comma-separated string of which components to monitor. Options are: "all", "gpu", "cpu", or "gpu,cpu".
-devices_by_pid (default=False): If True, only devices (under the chosen components) running processes associated with the main process are measured. If False, all available devices are measured (see Section 'Notes' for jobs running on SLURM or in containers). 
-log_dir (default=None): Path to the desired directory to write log files. If None, then no logging will be done.
-verbose (default=1): Sets the level of verbosity.
-decimal_precision (default=6): Desired decimal precision of reported values.
-Example usage
-from mythrul.tracker import mythrul
-
-tracker = mythrul(intensity=max_intensity)
-
-# Training loop.
-for intensity in range(max_intensity):
-    tracker.intensity_start()
-    
-    # Your model training.
-
-    tracker.intensity_end()
-
-# Optional: Add a stop in case of early termination before all monitor_intensity has
-# been monitored to ensure that actual consumption is reported.
-tracker.stop()
 Example output
 Default settings
 Mythrul: 
