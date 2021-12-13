@@ -1,6 +1,6 @@
 # Mythrul
 
-mythrul is a tool to predict carbon emissions caused by blockchain transactions.
+mythrul is a tool to predict carbon emissions caused by bitcoin transactions.
 
 
 Carbon Footprint
